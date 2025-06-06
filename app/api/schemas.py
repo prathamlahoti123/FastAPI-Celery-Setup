@@ -9,4 +9,4 @@ class TaskID(BaseModel):
 class Task(TaskID):
   """Schema to represent info about celery task"""
   status: str
-  result: int | None = None # bg task returns int as a result
+  result: float | None = None # bg task returns float as a result
