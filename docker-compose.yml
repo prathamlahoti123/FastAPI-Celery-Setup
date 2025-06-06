@@ -1,0 +1,58 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./app/Dockerfile
+    container_name: api
+    restart: always
+    env_file:
+      - ./app/.env
+    environment:
+      - CELERY_BROKER_URL=${CELERY_BROKER_URL}
+      - CELERY_RESULT_BACKEND=${CELERY_RESULT_BACKEND}
+    ports:
+      - 8000:80
+    volumes:
+      - ./app/api:/api/api
+    depends_on:
+      - worker
+
+  worker:
+    build:
+      context: .
+      dockerfile: ./worker/Dockerfile
+    container_name: worker
+    restart: always
+    env_file:
+      - ./worker/.env
+    environment:
+      - CELERY_BROKER_URL=${CELERY_BROKER_URL}
+      - CELERY_RESULT_BACKEND=${CELERY_RESULT_BACKEND}
+    volumes:
+      - ./worker/app:/worker/app
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: redis
+    restart: always
+    volumes:
+      - ./.redis_data:/data
+
+  flower:
+    build:
+      context: .
+      dockerfile: ./worker/Dockerfile
+    container_name: flower
+    restart: always
+    command: celery -A app.main flower --port=5555
+    environment:
+      - CELERY_BROKER_URL=${CELERY_BROKER_URL}
+      - CELERY_RESULT_BACKEND=${CELERY_RESULT_BACKEND}
+    ports:
+      - 5555:5555
+    volumes:
+      - ./worker/app:/worker/app
+    depends_on:
+      - worker
