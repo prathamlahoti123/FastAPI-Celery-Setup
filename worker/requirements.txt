@@ -1,0 +1,4 @@
+celery==5.5.3
+flower==2.0.1
+pydantic-settings==2.9.1
+redis==6.2.0
