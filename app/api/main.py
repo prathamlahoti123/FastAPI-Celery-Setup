@@ -1,4 +1,4 @@
-from fastapi import FastAPI, status
+from fastapi import FastAPI, status  # noqa: I001
 
 from api.routes import router
 
