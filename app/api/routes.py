@@ -1,4 +1,4 @@
-from celery.result import AsyncResult
+from celery.result import AsyncResult  # noqa: I001
 from fastapi import APIRouter
 
 from api.schemas import Task, TaskID
@@ -9,22 +9,20 @@ router = APIRouter()
 
 
 @router.get(
-  "/tasks/{id}",
+  "/tasks/{task_id}",
   description="Status and result of a celery task",
-  response_model=Task
 )
-def get_task_status(id: str) -> Task:
-  """Get info about celery task"""
-  res = AsyncResult(id)
-  return Task(id=id, status=res.status, result=res.result)
+def get_task_status(task_id: str) -> Task:
+  """Get info about celery task."""
+  res = AsyncResult(task_id)
+  return Task(id=res.id, status=res.status, result=res.result)
 
 
 @router.post(
   "/tasks/run",
   description="Run a background task",
-  response_model=TaskID
 )
 async def run_task(a: int, b: int) -> TaskID:
-  """Endpoint to run a 'CPU-intensive' background task"""
+  """Endpoint to run a 'CPU-intensive' background task."""
   task: AsyncResult = some_complex_task.delay(a, b)
   return TaskID(id=task.id)
