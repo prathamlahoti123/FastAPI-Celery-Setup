@@ -5,6 +5,7 @@ import pytest
 from fastapi import status
 
 from api.tasks import some_complex_task
+from tests.conftest import E2E_MODE_DISABLED
 
 if TYPE_CHECKING:
   from celery.result import AsyncResult
@@ -27,3 +28,8 @@ def test_run_task() -> None:
     UUID(res.id)
   except ValueError:
     pytest.fail("Task ID is not a valid UUID")
+
+
+@pytest.mark.skipif(E2E_MODE_DISABLED, reason="E2E mode disabled")
+def test_e2e_run_task() -> None:
+  """E2E test to run the task with a real broker and worker."""
