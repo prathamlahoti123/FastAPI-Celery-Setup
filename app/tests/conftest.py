@@ -1,20 +1,21 @@
-from collections.abc import AsyncIterator
+import os  # noqa: I001
+from collections.abc import Iterator
 
 import pytest
-from httpx import ASGITransport, AsyncClient
+from fastapi.testclient import TestClient
 
 from api.main import app
 
 
-@pytest.fixture(scope="session")
-def anyio_backend() -> str:
-  """Backend (asyncio) for pytest to run async tests."""
-  return "asyncio"
+# e2e mode should be enabled when running e2e tests
+E2E_MODE_DISABLED = bool(int(os.getenv("E2E_MODE_ENABLED", "1")))
+if E2E_MODE_DISABLED:
+  os.environ["CELERY_BROKER_URL"] = "memory://"
+  os.environ["CELERY_RESULT_BACKEND"] = "rpc://"
 
 
 @pytest.fixture(scope="session")
-async def client() -> AsyncIterator[AsyncClient]:
-  """Async HTTP client + test RabbitMQ broker to test FastAPI endpoints."""
-  transport = ASGITransport(app)
-  async with AsyncClient(base_url="http://test", transport=transport) as ac:
-    yield ac
+def client() -> Iterator[TestClient]:
+  """HTTP client to test FastAPI endpoints."""
+  with TestClient(app) as cl:
+    yield cl
