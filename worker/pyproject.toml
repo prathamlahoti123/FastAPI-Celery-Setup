@@ -5,3 +5,13 @@ lint.ignore = ["D100", "D104", "D204"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["S101"]
+
+[tool.mypy]
+python_version = "3.12"
+check_untyped_defs = true
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+warn_unused_ignores = true
+warn_unreachable = true
+exclude = [".venv", "api/__pycache__", "tests/__pycache__"]
