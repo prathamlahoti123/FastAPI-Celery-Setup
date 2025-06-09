@@ -15,7 +15,8 @@ services:
     volumes:
       - ./app/api:/api/api
     depends_on:
-      - worker
+      worker:
+        condition: service_healthy
 
   worker:
     build:
@@ -31,7 +32,13 @@ services:
     volumes:
       - ./worker/app:/worker/app
     depends_on:
-      - redis
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "celery", "-A", "app.main", "status"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
   redis:
     image: redis:7.2-alpine
@@ -39,6 +46,11 @@ services:
     restart: always
     volumes:
       - ./.redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
   flower:
     build:
@@ -55,4 +67,5 @@ services:
     volumes:
       - ./worker/app:/worker/app
     depends_on:
-      - worker
+      worker:
+        condition: service_healthy
