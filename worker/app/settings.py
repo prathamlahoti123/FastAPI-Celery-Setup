@@ -4,9 +4,9 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-  """Settings of the app"""
-  celery_broker_url: str
-  celery_result_backend: str
+  """Settings of the worker app."""
+  celery_broker_url: str = "redis://redis:6379/1"
+  celery_result_backend: str = "redis://redis:6379/2"
 
 
 @lru_cache
