@@ -1,0 +1,36 @@
+name: Orders Database Service CI-pipeline
+
+on:
+  push:
+    branches: [main]
+
+defaults:
+ run:
+  working-directory: ./worker
+
+jobs:
+  checks:
+    name: Test Code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.12
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.test.txt
+
+      - name: Run Ruff
+        run: ruff check
+
+      - name: Run Mypy
+        run: mypy .
+
+      - name: Run Pytest
+        run: pytest -vsx
