@@ -1,4 +1,4 @@
-name: Orders Database Service CI-pipeline
+name: Worker Service CI-pipeline
 
 on:
   push:
