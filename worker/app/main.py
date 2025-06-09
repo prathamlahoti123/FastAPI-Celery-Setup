@@ -1,5 +1,5 @@
 
-from celery import Celery
+from celery import Celery  # noqa: I001
 
 from app.settings import settings
 
