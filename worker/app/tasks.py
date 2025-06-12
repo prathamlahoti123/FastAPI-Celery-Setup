@@ -15,12 +15,7 @@ def div(a: int, b: int) -> float:
   return a / b
 
 
-@celery.task(
-  name="some-complex-task",
-  bind=True,
-  max_retries=2,
-  default_retry_delay=5,
-)
+@celery.task(name="some-complex-task", bind=True)
 def some_complex_task(self: "Task", a: int, b: int) -> float:
   """Run a 'CPU-intensive' math operation in the background task.
 
@@ -31,6 +26,6 @@ def some_complex_task(self: "Task", a: int, b: int) -> float:
   """
   try:
     res = div(a, b)
-  except ZeroDivisionError as exc:
-    raise self.retry(exc=exc)  # noqa: B904
+  except ZeroDivisionError as e:
+    raise self.retry(exc=e, max_retries=2, countdown=5)  # noqa: B904
   return res
