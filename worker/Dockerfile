@@ -6,5 +6,5 @@ WORKDIR /worker
 COPY ./worker/requirements.txt ./
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r ./requirements.txt && \
-    rm -rf requirements.txt
+    rm requirements.txt
 CMD ["celery", "-A", "app.main", "worker", "-l", "INFO"]
