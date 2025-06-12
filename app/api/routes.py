@@ -1,7 +1,7 @@
 from celery.result import AsyncResult  # noqa: I001
 from fastapi import APIRouter
 
-from api.schemas import Task, TaskID
+from api.schemas import Task, TaskID, TaskData
 from api.tasks import some_complex_task
 
 
@@ -22,7 +22,7 @@ def get_task_status(task_id: str) -> Task:
   "/tasks/run",
   description="Run a background task",
 )
-async def run_task(a: int, b: int) -> TaskID:
+def run_task(data: TaskData) -> TaskID:
   """Endpoint to run a 'CPU-intensive' background task."""
-  task: AsyncResult = some_complex_task.delay(a, b)
+  task: AsyncResult = some_complex_task.delay(data.a, data.b)
   return TaskID(id=task.id)
