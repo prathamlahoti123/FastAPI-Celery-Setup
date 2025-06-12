@@ -21,6 +21,6 @@ app.include_router(router)
     }
   }
 )
-async def health() -> dict[str, str]:
+def health() -> dict[str, str]:
   """Healthcheck endpoint."""
   return {"response": "ok"}
