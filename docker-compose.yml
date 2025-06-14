@@ -14,7 +14,6 @@ services:
       - 8000:80
     volumes:
       - ./app/api:/api/api
-      - ./app/tests:/api/tests
     depends_on:
       worker:
         condition: service_healthy
@@ -33,7 +32,6 @@ services:
       - CELERY_RESULT_BACKEND=${CELERY_RESULT_BACKEND}
     volumes:
       - ./worker/app:/worker/app
-      - ./worker/tests:/worker/tests
     depends_on:
       redis:
         condition: service_healthy
