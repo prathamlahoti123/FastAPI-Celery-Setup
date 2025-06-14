@@ -22,8 +22,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r app/requirements.test.txt
 
-      - name: Set .env Configuration File
+      - name: Set global .env Configuration File
         run: cp .env.example .env
+
+      - name: Set app .env Configuration File
+        run: cp app/.env.example app/.env
+
+      - name: Set worker .env Configuration File
+        run: cp worker/.env.example worker/.env
 
       - name: Start Services
         run: docker compose --profile app up -d
