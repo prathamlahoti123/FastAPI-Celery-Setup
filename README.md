@@ -34,11 +34,11 @@ This project demonstrates how to integrate **FastAPI** with **Celery** for runni
 │   │   ├── settings.py
 │   │   └── tasks.py
 │   ├── Dockerfile
-│   ├── pyproject.toml
-│   ├── requirements.test.txt
+│   ├── pyproject.toml # config for Ruff and Mypy
+│   ├── requirements.test.txt # base packages + packages for testing
 │   ├── requirements.txt
 │   ├── .dockerignore
-│   ├── .env.example
+│   ├── .env.example # config template for main app
 │   ├── .gitignore
 │   └── tests
 │       ├── __init__.py
@@ -52,18 +52,18 @@ This project demonstrates how to integrate **FastAPI** with **Celery** for runni
     │   ├── settings.py
     │   └── tasks.py
     ├── Dockerfile
-    ├── pyproject.toml
-    ├── requirements.test.txt
+    ├── pyproject.toml # config for Ruff and Mypy
+    ├── requirements.test.txt # base packages + packages for testing
     ├── requirements.txt
     ├── .dockerignore
-    ├── .env.example
+    ├── .env.example # config template for worker app
     ├── .gitignore
     └── tests
         ├── conftest.py
         ├── __init__.py
         └── test_tasks.py
 ├── docker-compose.yml
-├── .env.example
+├── .env.example # config for both main and worker apps
 └── README.md
 ```
 
