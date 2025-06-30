@@ -61,7 +61,7 @@ services:
       dockerfile: ./worker/Dockerfile
     container_name: flower
     restart: always
-    command: celery -A app.main flower --port=5555
+    command: celery -A app.main flower
     environment:
       - CELERY_BROKER_URL=${CELERY_BROKER_URL}
       - CELERY_RESULT_BACKEND=${CELERY_RESULT_BACKEND}
