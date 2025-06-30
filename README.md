@@ -55,6 +55,7 @@ This project demonstrates how to integrate **FastAPI** with **Celery** for runni
     ├── pyproject.toml # config for Ruff and Mypy
     ├── requirements.test.txt # base packages + packages for testing
     ├── requirements.txt
+    ├── run.sh # script to run Celery worker
     ├── .dockerignore
     ├── .env.example # config template for worker app
     ├── .gitignore
