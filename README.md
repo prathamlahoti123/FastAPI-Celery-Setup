@@ -77,6 +77,8 @@ This project demonstrates how to integrate **FastAPI** with **Celery** for runni
 
 - Both [app](app/) and [worker](worker/) apps have their own <ins>requirements.txt</ins> and <ins>requirements.test.txt</ins>.
 
+- There's a [script](worker/run.sh) that contains a command to start a Celery worker via [watchmedo](https://github.com/gorakhargosh/watchdog). It ensures reloading of the worker on code-changes.
+
 - Config for [Ruff](https://docs.astral.sh/ruff/) and [Mypy](https://www.mypy-lang.org/) is defined in the <ins>pyproject.toml</ins> file of the corresponding app.
 
 
