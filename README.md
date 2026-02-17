@@ -42,8 +42,8 @@ This project provides a comprehensive way to use **FastAPI** with **Celery** for
 
 | Variable | Default | Description |
 | --- | --- | --- |
-| CELERY_BROKER_URL | *redis://redis:6379/1* | - |
-| CELERY_RESULT_BACKEND | *redis://redis:6379/2* | - |
+| CELERY_BROKER_URL | *redis://redis:6379/1* | URL for the Celery broker |
+| CELERY_RESULT_BACKEND | *redis://redis:6379/2* | URL for the Celery result backend |
 
 It can be generated from the [template](.env.example) like this:
 ```bash
@@ -54,10 +54,10 @@ cp .env.example .env
 
 | Variable | Default | Description |
 | --- | --- | --- |
-| API_TITLE | *FastAPI + Celery API* | - |
-| API_DESCRIPTION | *Example API of using FastAPI and Celery* | - |
-| API_VERSION | *0.0.1* | - |
-| API_DEBUG | *0* | - |
+| API_TITLE | *FastAPI + Celery API* | title of the API |
+| API_DESCRIPTION | *Example API of using FastAPI and Celery* | description of the API |
+| API_VERSION | *0.0.1* | version of the API |
+| API_DEBUG | *0* | Enable or disable debug mode |
 
 It can also be generated from the [template](app/.env.example) like this:
 ```bash
@@ -72,8 +72,8 @@ Finally, adjust the values if needed.
 Step 1: clone the repository and navigate to the project directory:
 
 ```bash
-git clone git@github.com:prathamlahoti123/Django-DRF-Boilerplate.git
-cd Django-DRF-Boilerplate/
+git clone git@github.com:prathamlahoti123/FastAPI-Celery-Flower-example.git
+cd FastAPI-Celery-Flower-example/
 ```
 
 Step 2: generate configuration files in the root project directory (see [template](.env.example)) and for the [app](app/) application (see [template](app/.env.example)).
@@ -109,9 +109,9 @@ Once the stack is up and running navigate to http://localhost:8000/docs and trig
 
 
 ## References
-- [FastAPI]()
-- [Celery]()
-- [Flower]()
+- [FastAPI](https://github.com/fastapi/fastapi)
+- [Celery](https://github.com/celery/celery)
+- [Flower](https://github.com/mher/flower)
 
 
 ## License
