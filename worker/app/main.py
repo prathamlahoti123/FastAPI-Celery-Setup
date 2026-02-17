@@ -1,12 +1,10 @@
+from celery import Celery
 
-from celery import Celery  # noqa: I001
-
-from app.settings import settings
-
+from app.settings import CELERY_BROKER_URL, CELERY_RESULT_BACKEND
 
 celery = Celery(
   __name__,
-  broker=settings.celery_broker_url,
-  backend=settings.celery_result_backend,
+  broker=CELERY_BROKER_URL,
+  backend=CELERY_RESULT_BACKEND,
   include=["app.tasks"],
 )
