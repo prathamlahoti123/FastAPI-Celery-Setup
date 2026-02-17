@@ -1,37 +1,25 @@
 services:
+
   api:
-    build:
-      context: .
-      dockerfile: ./app/Dockerfile
-    container_name: api
+    build: ./app
     restart: always
-    env_file:
-      - ./app/.env
+    env_file: ./app/.env
     environment:
       - CELERY_BROKER_URL=${CELERY_BROKER_URL}
       - CELERY_RESULT_BACKEND=${CELERY_RESULT_BACKEND}
     ports:
-      - 8000:80
-    volumes:
-      - ./app/api:/api/api
+      - 8000:8000
     depends_on:
       worker:
         condition: service_healthy
-    profiles: [app]
+    profiles: [main, app]
 
   worker:
-    build:
-      context: .
-      dockerfile: ./worker/Dockerfile
-    container_name: worker
+    build: ./worker
     restart: always
-    env_file:
-      - ./worker/.env
     environment:
       - CELERY_BROKER_URL=${CELERY_BROKER_URL}
       - CELERY_RESULT_BACKEND=${CELERY_RESULT_BACKEND}
-    volumes:
-      - ./worker/app:/worker/app
     depends_on:
       redis:
         condition: service_healthy
@@ -40,26 +28,22 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
-    profiles: [app]
+    profiles: [main, app]
 
   redis:
     image: redis:7.2-alpine
-    container_name: redis
     restart: always
     volumes:
-      - ./.redis_data:/data
+      - redis_data:/data
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
       timeout: 5s
       retries: 3
-    profiles: [app]
+    profiles: [main, app]
 
   flower:
-    build:
-      context: .
-      dockerfile: ./worker/Dockerfile
-    container_name: flower
+    build: ./worker
     restart: always
     command: ["celery", "-A", "app.main", "flower", "--persistent=True"]
     environment:
@@ -72,4 +56,7 @@ services:
     depends_on:
       worker:
         condition: service_healthy
-    profiles: [ui]
+    profiles: [main, ui]
+
+volumes:
+  redis_data:
