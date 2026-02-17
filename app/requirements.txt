@@ -1,6 +1,0 @@
-celery==5.5.3
-fastapi==0.115.12
-pydantic-settings==2.9.1
-redis==6.2.0
-starlette==0.46.2
-uvicorn==0.34.2
