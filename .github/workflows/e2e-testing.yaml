@@ -1,8 +1,12 @@
-name: End-to-End Testing of App and Worker
+name: E2E Testing of the App and Worker Applications
 
 on:
   push:
     branches: [main]
+
+defaults:
+ run:
+  working-directory: ./app
 
 jobs:
   checks:
@@ -15,29 +19,27 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.12
+          python-version: "3.12"
 
-      - name: Install App Dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r app/requirements.test.txt
+      - name: Install uv
+        uses: astral-sh/setup-uv@v1
+        with:
+          version: "0.7.13"
 
-      - name: Set global .env Configuration File
+      - name: Install dependencies
+        run: uv sync --locked --all-extras --group test
+
+      - name: Create global configuration file
+        run: cp ../.env.example ../.env
+
+      - name: Create configuration file for the FastAPI application
         run: cp .env.example .env
 
-      - name: Set app .env Configuration File
-        run: cp app/.env.example app/.env
-
-      - name: Set worker .env Configuration File
-        run: cp worker/.env.example worker/.env
-
-      - name: Start Services
-        run: docker compose --profile app up -d
+      - name: Run all Services (excluding flower)
+        run: docker compose  -f ../docker-compose.yaml --profile app up -d
 
       - name: Run E2E Tests
-        run: |
-          until curl -s -f http://localhost:8000/health > /dev/null; do sleep 1; done && \
-          E2E_MODE_DISABLED=0 pytest -vsx app/tests
+        run: until curl -s -f http://localhost:8000/health > /dev/null; do sleep 1; done && pytest
 
-      - name: Stop Services
-        run: docker compose --profile app down -v
+      - name: Terminate all Services
+        run: docker compose -f ../docker-compose.yaml --profile app down -v
