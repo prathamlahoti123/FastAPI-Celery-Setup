@@ -36,7 +36,7 @@ jobs:
         run: cp .env.example .env
 
       - name: Run all Services (excluding flower)
-        run: docker compose  -f ../docker-compose.yaml --profile app up -d
+        run: docker compose  -f ../docker-compose.yml --profile app up -d
 
       - name: Run E2E Tests
         run: |
@@ -44,4 +44,4 @@ jobs:
           uv run pytest
 
       - name: Terminate all Services
-        run: docker compose -f ../docker-compose.yaml --profile app down -v
+        run: docker compose -f ../docker-compose.yml --profile app down -v
