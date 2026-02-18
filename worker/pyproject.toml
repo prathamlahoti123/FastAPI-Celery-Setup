@@ -33,3 +33,11 @@ python_version = "3.12"
 strict = true
 exclude = [".venv/"]
 files = ["."]
+
+[tool.pytest.ini_options]
+addopts = """
+  --durations=10
+  --durations-min=0.1
+  --verbose
+  --maxfail=1
+"""
