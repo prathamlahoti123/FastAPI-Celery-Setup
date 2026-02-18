@@ -25,9 +25,9 @@ services:
         condition: service_healthy
     healthcheck:
       test: ["CMD", "celery", "-A", "app.main", "status"]
-      interval: 10s
+      interval: 5s
       timeout: 5s
-      retries: 3
+      retries: 5
     profiles: [main, app]
 
   redis:
@@ -37,9 +37,9 @@ services:
       - redis_data:/data
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
+      interval: 5s
       timeout: 5s
-      retries: 3
+      retries: 5
     profiles: [main, app]
 
   flower:
