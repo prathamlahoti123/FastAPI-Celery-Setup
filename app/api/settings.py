@@ -1,7 +1,6 @@
 from functools import lru_cache
 from typing import TypedDict
 
-from pydantic import Field
 from pydantic_settings import BaseSettings
 
 
@@ -17,13 +16,10 @@ class FastAPIKwargs(TypedDict):
 class Settings(BaseSettings):
   """API settings."""
 
-  title: str = Field("FastAPI Celery Example", env="API_TITLE")
-  description: str = Field(
-    "Example of FastAPI and Celery integration.",
-    env="API_DESCRIPTION",
-  )
-  version: str = Field("0.0.1", env="API_VERSION")
-  debug: bool = Field(False, env="API_DEBUG")
+  title: str = "FastAPI Celery Example"
+  description: str = "Example of FastAPI and Celery integration."
+  version: str = "0.0.1"
+  debug: bool = False
 
   @property
   def fastapi_kwargs(self) -> FastAPIKwargs:
