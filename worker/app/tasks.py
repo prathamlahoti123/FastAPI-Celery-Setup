@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 from app.main import celery
 from app.settings import CELERY_MAX_RETRIES, CELERY_RETRY_DELAY
@@ -18,7 +18,8 @@ def div(a: int, b: int) -> float:
 
 @celery.task(name="some-complex-task", bind=True)
 def some_complex_task(
-  self: "Task[Any, tuple[int, int]]",
+  self: "Task[..., float]",
+  /,
   a: int,
   b: int,
   **kwargs: int,
