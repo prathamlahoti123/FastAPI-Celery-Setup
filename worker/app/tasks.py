@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING, Any
 
 from app.main import celery
+from app.settings import CELERY_MAX_RETRIES, CELERY_RETRY_DELAY
 
 if TYPE_CHECKING:
   from celery.app.task import Task
@@ -16,16 +17,19 @@ def div(a: int, b: int) -> float:
 
 
 @celery.task(name="some-complex-task", bind=True)
-def some_complex_task(self: "Task[Any, tuple[int, int]]", a: int, b: int) -> float:
-  """Run a 'CPU-intensive' math operation in the background task.
-
-  NOTE (1): the business logic and the actual task are separated
-            in order to test them as different units.
-
-  NOTE (2): retry policy is strictly used for demonstration purposes.
-  """
+def some_complex_task(
+  self: "Task[Any, tuple[int, int]]",
+  a: int,
+  b: int,
+  **kwargs: int,
+) -> float:
+  """Run the task with given input arguments on the background."""
   try:
     res = div(a, b)
-  except ZeroDivisionError as e:
-    raise self.retry(exc=e, max_retries=2, countdown=5)  # noqa: B904
+  except ZeroDivisionError as exc:
+    raise self.retry(
+      exc=exc,
+      max_retries=kwargs.get("retry_attempts", CELERY_MAX_RETRIES),
+      countdown=kwargs.get("retry_delay", CELERY_RETRY_DELAY),
+    ) from exc
   return res
