@@ -10,6 +10,9 @@ dependencies = [
 ]
 
 [dependency-groups]
+stubs = [
+    "celery-types>=0.24.0",
+]
 test = [
     "mypy>=1.19.1",
     "pytest>=9.0.2",
@@ -29,3 +32,4 @@ exclude = [".venv"]
 python_version = "3.12"
 strict = true
 exclude = [".venv/"]
+files = ["."]
