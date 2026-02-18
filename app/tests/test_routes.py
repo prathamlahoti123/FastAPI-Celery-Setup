@@ -13,10 +13,6 @@ if TYPE_CHECKING:
   from httpx import Client
 
 
-# End-to-end mode should be enabled when running end-to-end tests
-E2E_MODE_DISABLED = bool(int(os.getenv("E2E_MODE_DISABLED", "1")))
-
-
 def test_health(client: "TestClient") -> None:
   """Test healthcheck endpoint."""
   resp = client.get("/health")
@@ -39,7 +35,7 @@ def test_run_task(task_data: TaskData) -> None:
 @pytest.mark.parametrize(
   ("task_data", "result"), [(TaskData(a=2, b=2), 1.0), (TaskData(a=4, b=2), 2.0)]
 )
-@pytest.mark.skipif(E2E_MODE_DISABLED, reason="E2E mode disabled")
+@pytest.mark.e2e
 def test_e2e_run_task(e2e_client: "Client", task_data: TaskData, result: float) -> None:
   """E2E test to run the task with a real broker and worker."""
   run_task_res = e2e_client.post("/tasks/run", json=task_data.model_dump())
@@ -60,7 +56,7 @@ def test_e2e_run_task(e2e_client: "Client", task_data: TaskData, result: float) 
 
 
 @pytest.mark.parametrize("task_data", [TaskData(a=2, b=0)])
-@pytest.mark.skipif(E2E_MODE_DISABLED, reason="E2E mode disabled")
+@pytest.mark.e2e
 def test_e2e_run_task_with_error(e2e_client: "Client", task_data: TaskData) -> None:
   """E2E test to run the task with a real broker and worker."""
   run_task_res = e2e_client.post("/tasks/run", json=task_data.model_dump())
