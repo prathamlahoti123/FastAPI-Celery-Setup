@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from app.main import celery
 
@@ -16,7 +16,7 @@ def div(a: int, b: int) -> float:
 
 
 @celery.task(name="some-complex-task", bind=True)
-def some_complex_task(self: "Task", a: int, b: int) -> float:
+def some_complex_task(self: "Task[Any, tuple[int, int]]", a: int, b: int) -> float:
   """Run a 'CPU-intensive' math operation in the background task.
 
   NOTE (1): the business logic and the actual task are separated
