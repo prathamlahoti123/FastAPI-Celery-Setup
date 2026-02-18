@@ -1,13 +1,9 @@
-from typing import TYPE_CHECKING
 from uuid import UUID
 
 import pytest
 
 from app.tasks import div, some_complex_task
 from tests.conftest import E2E_MODE_DISABLED
-
-if TYPE_CHECKING:
-  from celery.result import AsyncResult
 
 
 def test_div() -> None:
@@ -17,7 +13,7 @@ def test_div() -> None:
 
 def test_run_task() -> None:
   """Test sending a task to the celery queue."""
-  res: AsyncResult = some_complex_task.delay(2, 2)
+  res = some_complex_task.delay(2, 2)
   assert res.result is None
   assert res.status == "PENDING"
   try:
