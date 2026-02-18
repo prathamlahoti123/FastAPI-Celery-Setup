@@ -44,3 +44,6 @@ addopts = """
   --verbose
   --maxfail=1
 """
+markers = """
+  e2e: marks e2e tests
+"""
