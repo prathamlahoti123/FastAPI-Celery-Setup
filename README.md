@@ -54,10 +54,10 @@ cp .env.example .env
 
 | Variable | Default | Description |
 | --- | --- | --- |
-| API_TITLE | *FastAPI + Celery API* | title of the API |
-| API_DESCRIPTION | *Example API of using FastAPI and Celery* | description of the API |
-| API_VERSION | *0.0.1* | version of the API |
-| API_DEBUG | *0* | Enable or disable debug mode |
+| TITLE | *FastAPI + Celery API* | title of the API |
+| DESCRIPTION | *Example API of using FastAPI and Celery* | description of the API |
+| VERSION | *0.0.1* | version of the API |
+| DEBUG | *0* | Enable or disable debug mode |
 
 It can also be generated from the [template](app/.env.example) like this:
 ```bash
