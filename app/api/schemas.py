@@ -1,6 +1,4 @@
-from typing import Any
-
-from pydantic import BaseModel, model_validator
+from pydantic import BaseModel
 
 
 class TaskID(BaseModel):
@@ -14,14 +12,6 @@ class Task(TaskID):
 
   status: str
   result: float | None = None
-
-  @model_validator(mode="before")
-  @classmethod
-  def validate_result(cls, data: dict[str, Any]) -> dict[str, Any]:
-    """Validate result of the task based on its status."""
-    if data["status"] != "SUCCESS":
-      data["result"] = None
-    return data
 
 
 class TaskData(BaseModel):
