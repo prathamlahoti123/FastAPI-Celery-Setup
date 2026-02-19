@@ -17,6 +17,7 @@ services:
   worker:
     build: ./worker
     restart: always
+    env_file: ./worker/.env
     environment:
       - CELERY_BROKER_URL=${CELERY_BROKER_URL}
       - CELERY_RESULT_BACKEND=${CELERY_RESULT_BACKEND}
