@@ -26,12 +26,12 @@ This project provides a comprehensive way to use **FastAPI** with **Celery** for
 ```bash
 # FastAPI application
 ├── app
-|   ├── ...
+   ├── ...
 # Celery worker
 ├── worker
-|   ├── ...
+   ├── ...
 ├── docker-compose.yml
-├── .env.example # config for both main and worker apps
+├── .env.example # config template for the entire stack
 └── README.md
 ```
 
@@ -50,7 +50,7 @@ It can be generated from the [template](.env.example) like this:
 cp .env.example .env
 ```
 
-* [app](app/) requires its own <ins>.env</ins> file. It contains configuration specifically for the [app](app/) application. The following parameters are available:
+* [app](app/) requires a separate <ins>.env</ins> with the following parameters:
 
 | Variable | Default | Description |
 | --- | --- | --- |
@@ -59,12 +59,24 @@ cp .env.example .env
 | VERSION | *0.0.1* | version of the API |
 | DEBUG | *0* | Enable or disable debug mode |
 
-It can also be generated from the [template](app/.env.example) like this:
+It can be generated from the [template](app/.env.example) like this:
 ```bash
-cp .env.example .env
+cp app/.env.example app/.env
 ```
 
-Finally, adjust the values if needed.
+* [worker](worker/) also requires a separate <ins>.env</ins> file with the following configuration:
+
+| Variable | Default | Description |
+| --- | --- | --- |
+| CELERY_RETRY_DELAY | *1* | delay in seconds before retrying a failed task |
+| CELERY_MAX_RETRIES | *3* | maximum number of retries for a failed task |
+
+You can generate it from the [template](worker/.env.example) like this:
+```bash
+cp worker/.env.example worker/.env
+```
+
+Once all configuration files are generated and filled with the required values, the stack is ready to be run.
 
 
 ## Installation
