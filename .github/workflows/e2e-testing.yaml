@@ -32,8 +32,11 @@ jobs:
       - name: Create global configuration file
         run: cp ../.env.example ../.env
 
-      - name: Create configuration file for the FastAPI application
+      - name: Create configuration file for the main application
         run: cp .env.example .env
+
+      - name: Create configuration file for the worker application
+        run: cp ../worker/.env.example ../worker/.env
 
       - name: Run all Services (excluding flower)
         run: docker compose  -f ../docker-compose.yml --profile app up -d
